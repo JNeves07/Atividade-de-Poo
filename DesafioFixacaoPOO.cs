@@ -1,5 +1,5 @@
 // Desafio Fixação POO - Implementação completa em C#
-// Autor: (preencha seu nome)
+// Autor: (João Marcelo Neves de Lima)
 // Data de geração: 2025-09-04
 // Observação: Este arquivo compila como um app de console (.NET 6+).
 // Para executar: dotnet new console -n DesafioPOO && substitua Program.cs por este arquivo, ou
@@ -276,6 +276,239 @@ namespace DesafioFixacaoPOO
         class Carro {
             private int velocidade;
             private const int Max = 200;
+            public void Acelerar(int delta){ velocidade = Math.Min(Max, velocidade+delta); }
+            public int Velocidade => velocidade;
+        }
+
+        // Q26
+        class Usuario {
+            private string senha;
+            public Usuario(string senha){ this.senha = senha; }
+            public bool Autenticar(string tentativa)=> senha == tentativa;
+        }
+
+        // Q27
+        class Banco {
+            private List<int> contas = new();
+            public void Adicionar(int id){ if(!contas.Contains(id)) contas.Add(id); }
+            public bool Remover(int id)=> contas.Remove(id);
+            public IEnumerable<int> Listar()=> contas;
+        }
+
+        // Q28
+        class Forma {
+            private double area;
+            public Forma(double areaCalculada){ area = areaCalculada; }
+            public double Area => area;
+        }
+
+        // Q29
+        class Empregado {
+            private decimal salario;
+            public Empregado(decimal salario){ this.salario=salario; }
+            public decimal CalcularBonus()=> salario * 0.10m;
+        }
+
+        // Q30
+        class Configuracao {
+            private Dictionary<string,string> dict = new();
+            public void Set(string chave,string valor)=> dict[chave]=valor;
+            public string? Get(string chave)=> dict.TryGetValue(chave,out var v)? v : null;
+        }
+
+        public static void Run()
+        {
+            Console.WriteLine("\n--- Seção 3: Encapsulamento (Q21-Q30) ---");
+
+            var p = new Pessoa { Idade = 25 };
+            Console.WriteLine($"Q21: Idade = {p.Idade}");
+
+            var c = new Conta(); c.Depositar(100m);
+            Console.WriteLine($"Q22: Saque 30 => {c.Sacar(30m)}, Saldo={c.Saldo():C}");
+
+            var a = new Aluno(); a.Nota = 9.5; a.Nota = 11; // ignorado
+            Console.WriteLine($"Q23: Nota válida = {a.Nota}");
+
+            var prod = new Produto(50m); prod.AplicarDesconto(60m);
+            Console.WriteLine($"Q24: Preço após desconto = {prod.Preco:C}");
+
+            var car = new Carro(); car.Acelerar(250);
+            Console.WriteLine($"Q25: Velocidade = {car.Velocidade} (máx 200)");
+
+            var usr = new Usuario("1234");
+            Console.WriteLine($"Q26: Autenticar '1234' => {usr.Autenticar(\"1234\")}");
+
+            var b = new Banco(); b.Adicionar(1); b.Adicionar(2); b.Remover(1);
+            Console.WriteLine($"Q27: Contas => {string.Join(\", \", b.Listar())}");
+
+            var f = new Forma(12.5);
+            Console.WriteLine($"Q28: Área (somente get) = {f.Area}");
+
+            var emp = new Empregado(2000m);
+            Console.WriteLine($"Q29: Bônus = {emp.CalcularBonus():C}");
+
+            var cfg = new Configuracao(); cfg.Set("tema","escuro");
+            Console.WriteLine($"Q30: Config 'tema' = {cfg.Get(\"tema\")}");
+        }
+    }
+
+    // -------------------- SEÇÃO 4 --------------------
+    public static class Section4
+    {
+        // Q31
+        class Animal { public virtual string FazerSom()=> "Som"; }
+        class Cachorro : Animal { public override string FazerSom()=> "Latir"; }
+
+        // Q32
+        class Veiculo { public int Velocidade { get; set; } }
+        class Carro : Veiculo { public void Buzinar()=> Console.WriteLine("Biiip!"); }
+
+        // Q33
+        abstract class Forma { public abstract double Area(); }
+        class Quadrado : Forma {
+            public double Lado { get; }
+            public Quadrado(double lado){ Lado=lado; }
+            public override double Area()=> Lado*Lado;
+        }
+
+        // Q34
+        class Pessoa { public string Nome{get;set;} public int Idade{get;set;} }
+        class Aluno : Pessoa { public double Nota{get;set;} public void Estudar()=> Console.WriteLine($"{Nome} estudando..."); }
+
+        // Q35
+        class Conta { protected decimal saldo; public decimal Saldo => saldo; }
+        class ContaPoupanca : Conta { public void RenderJuros(){ saldo += saldo * 0.01m; } public void Depositar(decimal v){ saldo+=v; } }
+
+        // Q36
+        class Funcionario { public decimal SalarioBase {get;set;} }
+        class Gerente : Funcionario {
+            public decimal Bonus {get;set;}
+            public decimal SalarioTotal()=> SalarioBase + Bonus;
+        }
+
+        // Q37
+        class Produto { public decimal Preco {get;set;} }
+        class ProdutoDigital : Produto { public long TamanhoArquivoBytes {get;set;}
+            public void Baixar()=> Console.WriteLine($"Baixando {TamanhoArquivoBytes} bytes..."); }
+
+        // Q38
+        class Transporte { public virtual string Mover()=> "Mover"; }
+        class Aviao : Transporte { public int Altitude {get;set;} public override string Mover()=> "Voar"; }
+
+        // Q39
+        class Jogo { public string Nome {get;set;} }
+        class JogoOnline : Jogo { public string Servidor {get;set;} public void Conectar()=> Console.WriteLine($"Conectando ao {Servidor}..."); }
+
+        // Q40
+        class BibliotecaItem { public string Titulo {get;set;} }
+        class Livro : BibliotecaItem { public string Autor {get;set;} }
+        class Revista : BibliotecaItem { public int Edicao {get;set;} }
+
+        public static void Run()
+        {
+            Console.WriteLine("\n--- Seção 4: Herança Básica (Q31-Q40) ---");
+            var dog = new Cachorro();
+            Console.WriteLine($"Q31: Som do cachorro = {dog.FazerSom()}");
+
+            var carro = new Carro{Velocidade=60};
+            Console.Write("Q32: "); carro.Buzinar();
+
+            var q = new Quadrado(6);
+            Console.WriteLine($"Q33: Área quadrado = {q.Area()}");
+
+            var al = new Aluno{Nome="Nina", Idade=20, Nota=9.8};
+            Console.Write("Q34: "); al.Estudar();
+
+            var cp = new ContaPoupanca(); cp.Depositar(1000m); cp.RenderJuros();
+            Console.WriteLine($"Q35: Saldo com juros = {cp.Saldo:C}");
+
+            var g = new Gerente{SalarioBase=4000m, Bonus=800m};
+            Console.WriteLine($"Q36: Salário total gerente = {g.SalarioTotal():C}");
+
+            var pd = new ProdutoDigital{Preco=59.90m, TamanhoArquivoBytes=1024*1024};
+            Console.Write("Q37: "); pd.Baixar();
+
+            var av = new Aviao{Altitude=10000};
+            Console.WriteLine($"Q38: Transporte: {av.Mover()}, Altitude = {av.Altitude}");
+
+            var jo = new JogoOnline{Nome="RPG-Z", Servidor="BR-1"};
+            Console.Write("Q39: "); jo.Conectar();
+
+            var li = new Livro{Titulo="POO Essencial", Autor="Dev X"};
+            var re = new Revista{Titulo="Tech Monthly", Edicao=42};
+            Console.WriteLine($"Q40: Livro='{li.Titulo}' de {li.Autor}; Revista='{re.Titulo}' edição {re.Edicao}");
+        }
+    }
+
+    // -------------------- SEÇÃO 5 --------------------
+    public static class Section5
+    {
+        // Q41
+        class Animal { public virtual string Comer()=> "Comer"; }
+        class Mamifero : Animal { public override string Comer()=> "Mamífero comendo"; }
+        class Ave : Animal { public override string Comer()=> "Ave bicando"; }
+
+        // Q42
+        abstract class Empregado { public abstract decimal CalcularSalario(); }
+        class Horista : Empregado {
+            public decimal Horas {get;} public decimal Taxa {get;}
+            public Horista(decimal horas, decimal taxa){ Horas=horas; Taxa=taxa; }
+            public override decimal CalcularSalario()=> Horas * Taxa;
+        }
+        class Assalariado : Empregado {
+            public decimal Fixo {get;}
+            public Assalariado(decimal fixo){ Fixo=fixo; }
+            public override decimal CalcularSalario()=> Fixo;
+        }
+
+        // Q43
+        abstract class FormaGeometrica { public abstract double Perimetro(); }
+        class Retangulo : FormaGeometrica {
+            public double L, A; public Retangulo(double l,double a){L=l;A=a;}
+            public override double Perimetro()=> 2*(L+A);
+        }
+        class Circulo : FormaGeometrica {
+            public double R; public Circulo(double r){R=r;}
+            public override double Perimetro()=> 2*Math.PI*R;
+        }
+        static double CalcularPerimetro(FormaGeometrica f)=> f.Perimetro();
+
+        // Q44
+        class Veiculo { public virtual string Acelerar()=> "Acelerar genérico"; }
+        class Bicicleta : Veiculo { public override string Acelerar()=> "Pedalando mais rápido"; }
+        class Moto : Veiculo { public override string Acelerar()=> "Acelerando motor"; }
+
+        // Q45
+        interface INadador { void Nadar(); }
+        interface ICorredor { void Correr(); }
+        class Triatleta : INadador, ICorredor {
+            public void Nadar()=> Console.WriteLine("Triatleta nadando");
+            public void Correr()=> Console.WriteLine("Triatleta correndo");
+            public void Competir()=> Console.WriteLine("Triatleta competindo!");
+        }
+
+        // Q46
+        abstract class Produto { public abstract decimal CalcularPreco(); }
+        class ProdutoFisico : Produto {
+            public decimal Base {get;} public decimal Frete {get;}
+            public ProdutoFisico(decimal bas, decimal frete){ Base=bas; Frete=frete; }
+            public override decimal CalcularPreco()=> Base + Frete;
+        }
+        class ProdutoServico : Produto {
+            public decimal Base {get;} public decimal Taxa {get;}
+            public ProdutoServico(decimal bas, decimal taxa){ Base=bas; Taxa=taxa; }
+            public override decimal CalcularPreco()=> Base + Taxa;
+        }
+
+        // Q47
+        class Pessoa { public string Nome{get;set;} }
+        class Cliente : Pessoa { public void Comprar()=> Console.WriteLine($"{Nome} comprando..."); }
+        class Fornecedor : Pessoa { public void Fornecer()=> Console.WriteLine($"{Nome} fornecendo..."); }
+
+        // Q48
+        abstract class Arquivo { public string Nome{get;set;} public long Tamanho{get;set;} public abstract void Abrir(); }
+        class ArquivoTexto : Arquivo {
+            public override void Abrir(){ if(Tamanho>0) Console.WriteLine($"Abrindo texto {Nome}");00;
             public void Acelerar(int delta){ velocidade = Math.Min(Max, velocidade+delta); }
             public int Velocidade => velocidade;
         }
