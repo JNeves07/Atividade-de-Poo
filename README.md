@@ -1,11 +1,7 @@
 # Desafio de Fixação – POO (C#)
 
 Este repositório contém a resolução **completa das 60 questões** do exercício de fixação de Programação Orientada a Objetos (POO), em **C#**.
-
----
-
-## 📂 Estrutura do Repositório
-
+## Estrutura do Repositório
 ```
 /
 ├── DesafioFixacaoPOO.cs   # Arquivo único com todas as soluções implementadas
@@ -24,7 +20,7 @@ Este repositório contém a resolução **completa das 60 questões** do exercí
 
 ---
 
-## ▶️ Como Executar
+## ▶Como Executar
 
 ### 1. Usando .NET SDK (recomendado)
 ```bash
@@ -39,12 +35,11 @@ csc DesafioFixacaoPOO.cs
 DesafioFixacaoPOO.exe
 ```
 
----
 
-## 🖼️ Entrega
+## Entrega
 
 O programa imprime no console a execução das **Questões 1 a 60**.  
-Faça **uma captura de tela** com a saída completa e anexe ao repositório como evidência da execução.
+
 
 Sugestão de organização:
 ```
@@ -54,7 +49,7 @@ Sugestão de organização:
 
 ---
 
-## ✅ Observações
+## Observações
 
 - Todas as classes seguem os enunciados (atributos, métodos, herança, encapsulamento, interfaces e classes abstratas).
 - A execução foi organizada em **6 seções**, cada uma cobrindo 10 questões.
